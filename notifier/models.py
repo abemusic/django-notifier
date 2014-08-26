@@ -6,7 +6,8 @@ from collections import Iterable
 from importlib import import_module
 
 # Django
-from django.contrib.auth.models import User, Group, Permission
+from django.conf import settings
+from django.contrib.auth.models import Group, Permission
 from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.db import models
@@ -17,6 +18,8 @@ from django.utils.timezone import now
 
 # User
 from notifier import managers
+
+AUTH_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 
 
 ###############################################################################
@@ -251,7 +254,7 @@ class UserPrefs(BaseModel):
     Supercedes group setting.
     If notification preference is not explicitly set, then use group setting.
     """
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(AUTH_MODEL)
     notification = models.ForeignKey(Notification)
     backend = models.ForeignKey(Backend)
     notify = models.BooleanField(default=True)
@@ -274,7 +277,7 @@ class SentNotification(BaseModel):
     """
     Record of every notification sent.
     """
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(AUTH_MODEL)
     notification = models.ForeignKey(Notification)
     backend = models.ForeignKey(Backend)
     success = models.BooleanField()

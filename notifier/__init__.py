@@ -13,6 +13,8 @@ send_notification('test-notif', [user1, user2, ..])
 VERSION = (0, 7, 0, 'f')  # following PEP 386
 # VERSION = (0, 5, 2, "a", "1")
 
+default_app_config = 'notifier.apps.NotifierConfig'
+
 
 def get_version(short=False):
     version = "%s.%s" % (VERSION[0], VERSION[1])
