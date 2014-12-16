@@ -1,5 +1,5 @@
 ###############################################################################
-## Imports
+# Imports
 ###############################################################################
 # Python
 from importlib import import_module
@@ -22,7 +22,7 @@ from notifier import settings as notifier_settings
 
 
 ###############################################################################
-## Code
+# Code
 ###############################################################################
 def create_backends(app=None, sender=None, **kwargs):
     """
@@ -64,7 +64,9 @@ def create_notifications(app=None, sender=None, **kwargs):
 
     for installed_app in settings.INSTALLED_APPS:
         try:
-            import_module(installed_app + '.notifications')
+            import_module(
+                installed_app + '.' + notifier_settings.AUTO_CREATE_MODULE_NAME
+            )
         except ImportError:
             pass
 
