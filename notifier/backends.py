@@ -36,6 +36,12 @@ class BaseBackend(object):
             'site': Site.objects.get_current()
         })
 
+    def user_supported(self, user):
+        '''
+        Override to enable/disable based on customer user logic.
+        '''
+        return True
+
 
 class EmailBackend(BaseBackend):
     name = 'email'

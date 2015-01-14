@@ -157,9 +157,16 @@ class Notification(BaseModel):
 
         backend_dict = dict(zip(all_backends, [False] * len(all_backends)))
         for backend in all_backends:
+            backend_supported = True
             if backend in selected_backends:
                 backend_dict[backend] = True
 
+            backendclass = backend.backendclass(self)
+            if hasattr(backendclass, 'user_supported'):
+                if not backendclass.user_supported(user):
+                    backend_supported = False
+
+            setattr(backend, 'user_supported', backend_supported)
         return backend_dict
 
     def update_user_prefs(self, user, prefs_dict):
